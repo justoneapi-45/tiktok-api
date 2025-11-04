@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "* * * * *"
+
+jobs:
+  autogreen:
+    if: github.repository == 'justoneapi-45/tiktok-api'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Auto commit
+        run: |
+          git config --local user.name "Anonymous Committer"
+          git config --local user.email "anonymous@users.noreply.github.com"
+          git commit --allow-empty -m "chore: auto empty commit at $(date)"
+          git push
